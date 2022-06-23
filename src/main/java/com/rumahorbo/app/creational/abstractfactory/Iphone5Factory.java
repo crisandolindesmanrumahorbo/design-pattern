@@ -1,6 +1,6 @@
 package com.rumahorbo.app.creational.abstractfactory;
 
-public class Iphone5Factory implements PhoneSparePartsFactory{
+public class Iphone5Factory implements PhoneSparePartsFactory {
     @Override
     public Charger createCharger() {
         return new Iphone5Charger();
