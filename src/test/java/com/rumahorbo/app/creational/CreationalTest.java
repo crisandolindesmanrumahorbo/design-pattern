@@ -7,6 +7,7 @@ import com.rumahorbo.app.creational.builder.GeneralComputer;
 import com.rumahorbo.app.creational.factory.Car;
 import com.rumahorbo.app.creational.factory.Ship;
 import com.rumahorbo.app.creational.factory.Vehicle;
+import com.rumahorbo.app.creational.singleton.SingletonService;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -70,5 +71,14 @@ public class CreationalTest {
         GeneralComputer generalComputer = Director.constructGeneralComputer();
 
         assertEquals("Monitor General display a lame windows logo", generalComputer.getMonitor().start());
+    }
+
+    @Test
+    public void getName_singleton() {
+        SingletonService singletonService = SingletonService.getInstance("customer");
+        SingletonService anotherService = SingletonService.getInstance("account");
+
+        assertEquals("customer", singletonService.getName());
+        assertEquals("customer", anotherService.getName());
     }
 }
