@@ -1,4 +1,4 @@
-package com.rumahorbo.app.creational;
+package com.rumahorbo.app.structural;
 
 import com.rumahorbo.app.structural.adapter.*;
 import org.junit.Test;
