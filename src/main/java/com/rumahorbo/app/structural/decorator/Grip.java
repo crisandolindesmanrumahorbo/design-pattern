@@ -11,4 +11,5 @@ public class Grip implements Weapon {
         return weapon.shootSound() + " but with grip";
     }
 
+
 }
