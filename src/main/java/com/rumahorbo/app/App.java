@@ -1,7 +1,5 @@
 package com.rumahorbo.app;
 
-import com.rumahorbo.app.structural.adapter.Gold;
-
 import java.util.Scanner;
 
 /**

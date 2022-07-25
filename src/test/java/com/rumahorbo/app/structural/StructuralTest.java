@@ -2,6 +2,8 @@ package com.rumahorbo.app.structural;
 
 import com.rumahorbo.app.structural.adapter.*;
 import com.rumahorbo.app.structural.composite.*;
+import com.rumahorbo.app.structural.facade.Notification;
+import com.rumahorbo.app.structural.facade.NotificationType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -39,6 +41,18 @@ public class StructuralTest {
 
         int cosSalesSalariesEmployee = coreCircle.getServiceTotalSalary();
 
-        assertEquals(50 ,cosSalesSalariesEmployee);
+        assertEquals(50, cosSalesSalariesEmployee);
+    }
+
+    @Test
+    public void getResponse_facade() {
+        Notification notificationSMS = new Notification("08123", NotificationType.SMS);
+        Notification notificationCall = new Notification("08123", NotificationType.CALL);
+
+        String actualResponseSMS = notificationSMS.notificationResponse().getMessage();
+        String actualResponseCall = notificationCall.notificationResponse().getMessage();
+
+        assertEquals(actualResponseSMS, "SMS to 08123 is sending");
+        assertEquals(actualResponseCall, "Call on processing to 08123");
     }
 }
