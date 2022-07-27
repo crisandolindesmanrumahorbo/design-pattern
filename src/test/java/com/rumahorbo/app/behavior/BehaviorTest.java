@@ -1,6 +1,9 @@
 package com.rumahorbo.app.behavior;
 
 import com.rumahorbo.app.behavior.command.*;
+import com.rumahorbo.app.behavior.mediator.Customer;
+import com.rumahorbo.app.behavior.mediator.CustomerMediator;
+import com.rumahorbo.app.behavior.mediator.Mediator;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -52,6 +55,30 @@ public class BehaviorTest {
         assertEquals(2, responses.size());
         assertEquals("Get customer identity from server with nik: " + nik, responses.get(0));
         assertEquals("Get customer accounts from server with cif: " + cif, responses.get(1));
+    }
+
+    @Test
+    public void getCitizen_mediator_pattern() {
+        boolean isIndonesiaCitizen = true;
+        Mediator customerMediator = new CustomerMediator();
+        Customer customerParticipant = new Customer(customerMediator, isIndonesiaCitizen);
+
+        customerParticipant.validateCheckBoxCountry();
+        String actualCitizen = customerParticipant.getCitizen();
+
+        assertEquals(actualCitizen, "Indonesia");
+    }
+
+    @Test
+    public void getOtherCountryCitizen_mediator_pattern() {
+        boolean isIndonesiaCitizen = false;
+        Mediator customerMediator = new CustomerMediator();
+        Customer customerParticipant = new Customer(customerMediator, isIndonesiaCitizen);
+
+        customerParticipant.validateCheckBoxCountry();
+        String actualCitizen = customerParticipant.getCitizen();
+
+        assertEquals(actualCitizen, "Show field to fill country citizen");
     }
 
 }
