@@ -1,6 +1,8 @@
 package com.rumahorbo.app.behavior;
 
 import com.rumahorbo.app.behavior.command.*;
+import com.rumahorbo.app.behavior.iterator.Array;
+import com.rumahorbo.app.behavior.iterator.Iterator;
 import com.rumahorbo.app.behavior.mediator.Customer;
 import com.rumahorbo.app.behavior.mediator.CustomerMediator;
 import com.rumahorbo.app.behavior.mediator.Mediator;
@@ -79,6 +81,34 @@ public class BehaviorTest {
         String actualCitizen = customerParticipant.getCitizen();
 
         assertEquals(actualCitizen, "Show field to fill country citizen");
+    }
+
+    @Test
+    public void forwardIterator_iterator_pattern() {
+        boolean isBackward = false;
+        int[] numbers = {5, 1, 5, 2, 3, 8, 2};
+        Array array = new Array(isBackward, numbers);
+        Iterator forwardIterator = array.createIterator();
+        int i = 0;
+
+        while (forwardIterator.hasNext()) {
+            assertEquals(numbers[i], forwardIterator.next());
+            i++;
+        }
+    }
+
+    @Test
+    public void backwardIterator_iterator_pattern() {
+        boolean isBackward = true;
+        int[] numbers = {5, 1, 5, 2, 3, 8, 2};
+        Array array = new Array(isBackward, numbers);
+        Iterator backward = array.createIterator();
+        int i = numbers.length - 1;
+
+        while (backward.hasNext()) {
+            assertEquals(numbers[i], backward.next());
+            i--;
+        }
     }
 
 }
