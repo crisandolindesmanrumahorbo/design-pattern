@@ -6,8 +6,13 @@ import com.rumahorbo.app.behavior.iterator.Iterator;
 import com.rumahorbo.app.behavior.mediator.Customer;
 import com.rumahorbo.app.behavior.mediator.CustomerMediator;
 import com.rumahorbo.app.behavior.mediator.Mediator;
+import com.rumahorbo.app.behavior.observer.Publisher;
+import com.rumahorbo.app.behavior.observer.Subscriber;
+import com.rumahorbo.app.behavior.observer.User;
+import com.rumahorbo.app.behavior.observer.YoutubeChannel;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -109,6 +114,60 @@ public class BehaviorTest {
             assertEquals(numbers[i], backward.next());
             i--;
         }
+    }
+
+    @Test
+    public void uploadVideo_observer_pattern() {
+        Subscriber chandler = new User("chandler");
+        Subscriber chris = new User("chris");
+        Publisher publisher = new YoutubeChannel("MrBeast", Arrays.asList(chandler, chris));
+
+        publisher.uploadVideo("Give away $1000000");
+
+        assertEquals(chandler.getNotifications().size(), 1);
+        assertEquals(chris.getNotifications().size(), 1);
+        assertEquals(chandler.getNotifications().get(0), "MrBeast upload new video with title Give away $1000000");
+    }
+
+    @Test
+    public void subscribe_observer_pattern() {
+        List<Subscriber> subscribers = new ArrayList<>();
+        Subscriber chandler = new User("chandler");
+        Subscriber chris = new User("chris");
+        Subscriber nolan = new User("nolan");
+        subscribers.add(chandler);
+        subscribers.add(chris);
+        Publisher publisher = new YoutubeChannel("MrBeast", subscribers);
+        publisher.subscribe(nolan);
+
+        publisher.uploadVideo("Give away $1000000");
+        publisher.uploadVideo("Give away a House");
+
+        assertEquals(chandler.getNotifications().size(), 2);
+        assertEquals(chris.getNotifications().size(), 2);
+        assertEquals(nolan.getNotifications().size(), 2);
+        assertEquals(chandler.getNotifications().get(0), "MrBeast upload new video with title Give away $1000000");
+        assertEquals(chris.getNotifications().get(0), "MrBeast upload new video with title Give away $1000000");
+        assertEquals(nolan.getNotifications().get(1), "MrBeast upload new video with title Give away a House");
+    }
+
+    @Test
+    public void unSubscribe_observer_pattern() {
+        List<Subscriber> subscribers = new ArrayList<>();
+        Subscriber chandler = new User("chandler");
+        Subscriber chris = new User("chris");
+        subscribers.add(chandler);
+        subscribers.add(chris);
+        Publisher publisher = new YoutubeChannel("MrBeast", subscribers);
+
+        publisher.uploadVideo("Give away $1000000");
+        publisher.unSubscribe(chris);
+        publisher.uploadVideo("Give away a House");
+
+        assertEquals(chandler.getNotifications().size(), 2);
+        assertEquals(chris.getNotifications().size(), 1);
+        assertEquals(chandler.getNotifications().get(1), "MrBeast upload new video with title Give away a House");
+        assertEquals(chris.getNotifications().get(0), "MrBeast upload new video with title Give away $1000000");
     }
 
 }
